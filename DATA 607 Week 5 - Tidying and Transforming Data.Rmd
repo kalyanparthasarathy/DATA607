@@ -1,6 +1,21 @@
-# Week 5 Assignment - Tidying and Transforming Data
-# Student: Kalyan (Kalyanaraman Parthasarathy)
-# RPubs link: http://rpubs.com/kalyanparthasarathy/313923
+---
+title: "Week 5 Assignment - Tidying and Transforming Data"
+author: "Kalyanaraman Parthasarathy"
+output:
+  html_document:
+    code_folding: show
+    depth: 4
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+
+
+## Load required packages
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
 
 # Clear the console
 cat("\014")
@@ -17,11 +32,22 @@ if(!require('dplyr')) {
   library(tidyr)
 }
 
+```
+
+## Question 1
+
+```{r}
 # 1. Create a .CSV file (or optionally, a MySQL database!) that includes all of the information above
+
 flightDataCSV <- read.csv("https://raw.githubusercontent.com/kalyanparthasarathy/DATA607/master/week5-flights-data.csv")
 flightDataCSV
 
+```
 
+## Question 2
+
+
+```{r}
 # 2. Read the information from your .CSV file into R,and use tidyr and dplyr as needed to tidy and transform your data
 
 # Transform the columns of cities data into rows
@@ -33,7 +59,12 @@ tidyDataNew <- spread(tidyData, Status, `# of Flights`)
 
 tidyDataNew
 
+```
 
+## Question 3
+
+
+```{r}
 # 3. Perform analysis to compare the arrival delays for the two airlines
 
 # Delayed percentage of total flights by city
@@ -58,4 +89,7 @@ airlinesOverallStatsSummary <- summarise(
                         )
 airlinesOverallStatsSummary
 
-# Overall, AM West airlines has performed better than ALASKA airlines with respect to on time performance.
+```
+
+Overall, AM West airlines has performed better than ALASKA airlines with respect to on time performance.
+
