@@ -1,0 +1,226 @@
+---
+title: "DATA 607 Project 2"
+author: "Kalyanaraman Parthasarathy"
+output:
+  html_document:
+    code_folding: show
+    depth: 4
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+
+### Load required packages
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+
+# References
+# ggplot types reference - http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html#Bar%20Chart
+
+# Clear the console
+cat("\014")
+
+# Load the library
+# Check if the package is installed. If not, install the package
+if(!require('tidyr')) {
+  install.packages('tidyr')
+  library(tidyr)
+}
+
+# Check if the package is installed. If not, install the package
+if(!require('dplyr')) {
+  install.packages('dplyr')
+  library(dplyr)
+}
+
+# Check if the package is installed. If not, install the package
+if(!require('ggplot2')) {
+  install.packages('ggplot2')
+  library(ggplot2)
+}
+
+# Flights data used for this Project
+# Check if the package is installed. If not, install the package
+if(!require('nycflights13')) {
+  install.packages('nycflights13')
+  library(nycflights13)
+}
+
+# Check if the package is installed. If not, install the package
+if(!require('reshape2')) {
+  install.packages('reshape2')
+  library(reshape2)
+}
+
+# Check if the package is installed. If not, install the package
+if(!require('plotrix')) {
+  install.packages('plotrix')
+  library(plotrix)
+}
+
+```
+
+### Dataset 1 - AMES Data
+
+```{r}
+
+#DATASET 1 - AMES Dataset
+amesData <- read.csv("https://raw.githubusercontent.com/kalyanparthasarathy/DATA607/master/AMES%20RESIDENTIAL%20HOME%20SALES%20(AMES).csv")
+head(amesData)
+
+# 1. Find the Mean Sale price for each year for each house type
+amesDataForAnalysis <- amesData[, c(1, 2, 17, 48, 21, 79, 82)]
+names(amesDataForAnalysis) <- c("S.No", "PID", "House_Style", "Living_Area_Size", "Year_Built", "Year_Sold", "Sale_Price")
+
+amesDataMean <- group_by(amesDataForAnalysis, Year_Sold, House_Style)
+amesDataMeanSummary <- summarise(amesDataMean, meanValue = mean(Sale_Price), NumberOfHomes = n())
+
+# Mean price for all house types
+amesDataMeanAll <- group_by(amesDataForAnalysis, Year_Sold)
+amesDataMeanSummaryAll <- summarise(amesDataMeanAll, meanValue = mean(Sale_Price), NumberOfHomes = n())
+amesDataMeanSummaryAll
+
+# 2. Draw a comaprison graph for Mean price by year
+theme_set(theme_classic())
+
+# Tidy dataframe for Mean Summary for all house types
+amesDataMeanSummaryAllPlot <- ggplot(amesDataMeanSummaryAll, aes(Year_Sold, meanValue))
+amesDataMeanSummaryAllPlot +
+  geom_bar(stat="identity", width = 0.2, fill="tomato2") + 
+  labs(title="Mean Price Bar Chart", 
+       subtitle="All Home sold between 2006 - 2010", 
+       caption="Source: AMES Dataset from OpenIntro Statistics website") +
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+# Mean Summary for each house type
+# 1Fam TidyData
+amesDataMeanSummaryPlot <- ggplot(filter(amesDataMeanSummary, House_Style=='1Fam'), aes(Year_Sold, meanValue))
+amesDataMeanSummaryPlot +
+  geom_bar(stat="identity", width = 0.2, fill="tomato2") + 
+  labs(title="Mean Price Bar Chart", 
+       subtitle="All 1Fam Home sold between 2006 - 2010", 
+       caption="Source: AMES Dataset from OpenIntro Statistics website") +
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+# 2fmCon TidyData
+amesDataMeanSummaryPlot <- ggplot(filter(amesDataMeanSummary, House_Style=='2fmCon'), aes(Year_Sold, meanValue))
+amesDataMeanSummaryPlot +
+  geom_bar(stat="identity", width = 0.2, fill="tomato2") + 
+  labs(title="Mean Price Bar Chart", 
+       subtitle="All 2fmCon Home sold between 2006 - 2010", 
+       caption="Source: AMES Dataset from OpenIntro Statistics website") +
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+# Duplex
+amesDataMeanSummaryPlot <- ggplot(filter(amesDataMeanSummary, House_Style=='Duplex'), aes(Year_Sold, meanValue))
+amesDataMeanSummaryPlot +
+  geom_bar(stat="identity", width = 0.2, fill="tomato2") + 
+  labs(title="Mean Price Bar Chart", 
+       subtitle="All Duplex Home sold between 2006 - 2010", 
+       caption="Source: AMES Dataset from OpenIntro Statistics website") +
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+# Twnhs
+amesDataMeanSummaryPlot <- ggplot(filter(amesDataMeanSummary, House_Style=='Twnhs'), aes(Year_Sold, meanValue))
+amesDataMeanSummaryPlot +
+  geom_bar(stat="identity", width = 0.2, fill="tomato2") + 
+  labs(title="Mean Price Bar Chart", 
+       subtitle="All Twnhs Home sold between 2006 - 2010", 
+       caption="Source: AMES Dataset from OpenIntro Statistics website") +
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+# TwnhsE
+amesDataMeanSummaryPlot <- ggplot(filter(amesDataMeanSummary, House_Style=='TwnhsE'), aes(Year_Sold, meanValue))
+amesDataMeanSummaryPlot +
+  geom_bar(stat="identity", width = 0.2, fill="tomato2") + 
+  labs(title="Mean Price Bar Chart", 
+       subtitle="All TwnhsE Home sold between 2006 - 2010", 
+       caption="Source: AMES Dataset from OpenIntro Statistics website") +
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+
+# 3. Sales record count by home type (1 story, 1.5 story etc.)
+# Mean price by house type
+amesDataMean <- group_by(amesDataForAnalysis, Year_Sold, House_Style)
+amesDataMeanSummary <- summarise(amesDataMean, meanValue = mean(Sale_Price), NumberOfHomes = n())
+amesDataMeanSummary
+
+```
+
+### Dataset 2 - nycflights13 package Flights Data
+
+```{r}
+
+head(airlines)
+head(planes)
+head(flights)
+
+flightsDF <- flights
+airlinesDF <- airlines
+nrow(flightsDF)
+
+# Histogram of the Arrival Delays - General
+hist(flightsDF$arr_delay, main="Arrival Delays", xlab="Delay time in Mins", ylab="Number of Occurences")
+
+# TidyData of JFK
+flightsDFJFK <- filter(flightsDF, origin=='JFK')
+
+# Flights to destinations starting from JFK
+flightsDest <- group_by(flightsDFJFK, dest)
+flightsDest <- summarize(flightsDest, number_flights = n())
+flightsDest <- head(arrange(flightsDest,desc(number_flights)), n = 10)
+
+# Plot
+theme_set(theme_classic())
+FlightsDestBar <- ggplot(flightsDest, aes(dest, number_flights), xlab="Destinations", ylab="Number of Flights")
+FlightsDestBar + geom_bar(stat="identity", width = 0.5, fill="red") + 
+  labs(title="JFK Traffic Chart", 
+       subtitle="# of Flights to different Destinations") +
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+```
+
+### Dataset 3 - CDC Data
+
+```{r}
+
+CDCData = read.csv("http://www.openintro.org/stat/data/cdc.csv")
+head(CDCData)
+
+# Plot the graph of the health condition of the smokers of age less than 30
+age30AndLess <- filter(CDCData, age <= 30)
+dataByHealthCondition <- group_by(CDCData, genhlth)
+dataByHealthCondition <- summarize(dataByHealthCondition, count = n())
+lbls <- c("Excellent", "Fair", "Good", "Poor", "Very Good")
+pie3D(dataByHealthCondition$count, labels=lbls, explode=0.1, main="Pie Chart of Health Condition of People less than 30 years old")
+
+# Plot the graph of the health condition of the smokers of age between 31 - 45
+dataByHealthCondition <- group_by(filter(CDCData, age > 30, age <=45), genhlth)
+dataByHealthCondition <- summarize(dataByHealthCondition, count = n())
+lbls <- c("Excellent", "Fair", "Good", "Poor", "Very Good")
+pie3D(dataByHealthCondition$count, labels=lbls, explode=0.1, main="Pie Chart of Health Condition of People > 30 and < 45 years old")
+
+# Plot the graph of the health condition of the smokers of age above 45
+dataByHealthCondition <- group_by(filter(CDCData, age > 45), genhlth)
+dataByHealthCondition <- summarize(dataByHealthCondition, count = n())
+lbls <- c("Excellent", "Fair", "Good", "Poor", "Very Good")
+pie3D(dataByHealthCondition$count, labels=lbls, explode=0.1, main="Pie Chart of Health Condition of People > 45 years old")
+
+
+# What proportion of the sample reports being in excellent health?
+print(paste("Percent of people being in excellent health is ", round(nrow(count(CDCData[CDCData$genhlth == "excellent",]))  / nrow(CDCData) * 100, 2), "%"))
+
+# What is the percentage of Male vs Female smokers
+maleSmokers <- filter(CDCData, gender=="m")
+femaleSmokers <- filter(CDCData, gender=="f")
+print(paste("Percentage of Male smokers compare to entire population is:", round(nrow(maleSmokers)/nrow(CDCData)*100, 2), "%"))
+print(paste("Percentage of Female smokers compare to entire population is:", round(nrow(femaleSmokers)/nrow(CDCData)*100, 2), "%"))
+
+# Number of people smoking 100 cigarette and still staying healthy
+print(paste("Number of people smoking 100 cigarette and still staying healthy is", nrow(filter(CDCData, smoke100==1, genhlth=="excellent"))))
+print(paste("Percentage to general population is: ", round(nrow(filter(CDCData, smoke100==1, genhlth=="excellent"))/nrow(CDCData)*100, 2), "%"))
+
+```
+
