@@ -1,24 +1,27 @@
-<dwml xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/kalyanparthasarathy/DATA607/master/books.xsd">
+<?xml version="1.0"?>
 <catalog>
-  <book id="bk01">
-    <Title>Who Moved My Cheese</Title>
-    <Authors>Spencer Johnson</Authors>
-    <Year>1998</Year>
-    <Publisher>G.P. Putnam's Sons</Publisher>
-    <ISBN>0-399-14446-3</ISBN>
-  </book>
-  <book id="bk02">
-    <Title>The One Minute Manager</Title>
-    <Authors>Kenneth Blanchard, Spencer Johnson</Authors>
-    <Year>1983</Year>
-    <Publisher>Berkley Trade</Publisher>
-    <ISBN>0-425-09847-8</ISBN>
-  </book>
-  <book id="bk03">
-    <Title>Rich Dad Poor Dad</Title>
-    <Authors>Robert Kiyosaki, Sharon L. Lechter</Authors>
-    <Year>2000</Year>
-    <Publisher>Warner Books Ed</Publisher>
-    <ISBN>0-446-67745-0</ISBN>
-  </book>
+	<book id="001">
+		<author>Spencer Johnson</author>
+		<title>Who Moved My Cheese</title>
+		<price>44.95</price>
+		<published_year>1998</published_year>
+		<publisher>G.P. Putnam's Sons</publisher>
+		<isbn>0-399-14446-3</isbn>
+	</book>
+	<book id="002">
+		<author>Kenneth Blanchard, Spencer Johnson</author>
+		<title>The One Minute Manager</title>
+		<price>44.95</price>
+		<published_year>1983</published_year>
+		<publisher>Berkley Trade</publisher>
+		<isbn>0-425-09847-8</isbn>
+	</book>
+	<book id="003">
+		<author>Robert Kiyosaki, Sharon L. Lechter</author>
+		<title>Rich Dad Poor Dad</title>
+		<price>44.95</price>
+		<published_year>2000</published_year>
+		<publisher>Warner Books Ed</publisher>
+		<isbn>0-446-67745-0</isbn>
+	</book>
 </catalog>
