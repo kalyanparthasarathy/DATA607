@@ -1,0 +1,142 @@
+---
+title: "DATA 607 Week 9 Assignment - Web APIs"
+author: "Kalyanaraman Parthasarathy"
+output:
+  html_document:
+    code_folding: show
+    depth: 4
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+
+## Libraries
+
+The following libraries are used in this assignment
+
+**jsonlite**
+
+**httr**
+
+## Load Libraries
+
+```{r}
+# knitr::opts_chunk$set(echo = TRUE)
+
+# Clear the console
+cat("\014")
+
+# Check if the package is installed. If not, install the package
+if(!require('jsonlite')) {
+  install.packages('jsonlite')
+  library(jsonlite)
+}
+
+# Check if the package is installed. If not, install the package
+if(!require('httr')) {
+  install.packages('httr')
+  library(httr)
+}
+
+```
+
+## Read API Key
+
+```{r}
+
+# Read API Key from file
+APIKey <- readLines("https://raw.githubusercontent.com/kalyanparthasarathy/DATA607/master/APIKey.txt")
+
+```
+
+
+## Books API
+
+In this section, the books API data from NY Times is retrieved using the API keys stored in Github.
+
+```{r}
+
+# NYTimes Books Data
+
+# Check if the URL is returning data
+URL <- paste0("https://api.nytimes.com/svc/books/v3/lists.json?api_key=", APIKey, "&list=hardcover-fiction")
+nytimes_books_get_method <- GET(URL);
+
+# Need to get status code 200 - means the URL call worked fine
+nytimes_books_get_method$status_code
+
+# Read the data in JSON format and the results will be in nested Dataframe object
+nytimes_books_json_data <- jsonlite::fromJSON(
+                            URL
+                            , flatten = TRUE
+                          )
+
+# Names from the JSON call - top level dataframes
+# names(nytimes_books_json_data)
+
+# Check the results dataframe
+# names(nytimes_books_json_data$results)
+
+# Structure of results dataframe
+# str(nytimes_books_json_data)
+
+# Store the books dataframe results
+nytimes_books_results_df <- nytimes_books_json_data$results
+
+# Book details dataframe
+nytimes_books_details_df <- nytimes_books_results_df$book_details
+
+nytimes_books_df_flat <- flatten(nytimes_books_results_df, recursive = TRUE)
+
+# str(nytimes_books_results_df)
+
+head(nytimes_books_df_flat, 10)
+
+```
+
+## NYTimes Top Stories API
+
+In this section, the Top Stories API data from NY Times is retrieved using the API keys stored in Github.
+
+```{r}
+
+# NYTimes Top Stories Data
+
+# Check if the URL is returning data
+URL <- paste0("https://api.nytimes.com/svc/topstories/v2/technology.json?api_key=", APIKey, "&section=technology")
+nytimes_tech_topstories_get_method <- GET(URL);
+
+# Need to get status code 200 - means the URL call worked fine
+nytimes_tech_topstories_get_method$status_code
+
+# Read the data in JSON format and the results will be in nested Dataframe object
+nytimes_tech_topstories_json_data <- jsonlite::fromJSON(
+  URL
+  , flatten = TRUE
+)
+
+nytimes_tech_topstories_json_data <- nytimes_tech_topstories_json_data[nytimes_tech_topstories_json_data$section == 'technology']
+
+# Names from the JSON call - top level dataframes
+names(nytimes_tech_topstories_json_data)
+
+# Check the results dataframe
+names(nytimes_tech_topstories_json_data$results)
+
+# Structure of results dataframe
+# str(nytimes_tech_topstories_json_data$results)
+
+# Store the top stories dataframe results
+nytimes_tech_topstories_results_df <- nytimes_tech_topstories_json_data$results
+
+nytimes_tech_topstories_df_flat <- flatten(nytimes_tech_topstories_results_df, recursive = TRUE)
+
+# str(nytimes_tech_topstories_df_flat)
+
+nytimes_tech_topstories_df_flat <- nytimes_tech_topstories_df_flat[, c(1, 2, 3, 5, 7, 8, 9, 10)]
+
+head(nytimes_tech_topstories_df_flat, 10)
+
+```
+
