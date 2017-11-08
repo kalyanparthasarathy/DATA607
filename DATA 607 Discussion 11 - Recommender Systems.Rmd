@@ -1,0 +1,67 @@
+---
+title: "DATA 607 Discussion 11 - Recommender Systems"
+author: "Kalyanaraman Parthasarathy"
+output:
+  html_document:
+    code_folding: show
+    depth: 4
+    toc: yes
+    toc_float: no
+  pdf_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Recommender System - slickdeals.net
+
+Slickdeals is the leading and most trusted online community dedicated to sharing, rating, and reviewing deals and coupons. Slickdeals provides information about the best deals that is going on various products. 
+
+The Slickdeals community consists of millions of users who are savvy and passionate about finding and sharing good deals. Their engagement sets Slickdeals apart. Every deal on the site is posted, rated and reviewed by the community. The team of deal editors has deep experience and category knowledge. They sift through these deals, researching the price and price history of products from a variety of merchants, selecting only the best deals to post on the Frontpage. The collaboration of the community and deal editors guarantees the best prices around and makes Slickdeals the best deal site on the Web.
+
+
+## Step 1: Identify Target Users
+
+Target users for this website are the retail purchasers. People use this website all the time to find deals on anything that they want to buy from a retailer. There is a forum thread created for each deal
+and the users of this website discuss about the product, price point, experience with the product/retailer etc.
+
+
+## Step 2: What are their key goals?
+
+Anyone is allowed to post a deal that they find. Slickdeals identifies some of the deals as best deal and post it as "Frontpage Deals". Every deal is rated by the users and also comments provided for every deal.
+
+Slickdeals makes sure that the deal is categorized according to the type of the product.
+
+Frontpage deals are selected from the pool of deals that has been approved by the user community and examined by deal editors. Only the best are picked for Frontpage display. These deals are remarkable for their value, quality, scarcity or timeliness.
+
+## Step 3: How can you help them to accomplish those goals?
+
+Upon navigating through the website and having been using the website for long time, I am able to make recommendations for the website which will increase the usability as well as attract more customers to use the website. 
+
+The website generates revenue through the advertisements and the following recommendations will increase the traffic to the website and contribute to the revenue increase for the management.
+
+# Reverse Engineering (Recommendations)
+
+Though slickdeals provides information about various deals, sometimes it takes long time to find out the deals that are of our interest. The website can be enhanced to make the user experience better.
+
+## User preferences
+
+Currently the website does not allow the users to specify their preferences and being notified to the user when a deal is posted for the items that they are looking for. This will be a value added addition to the user community.
+
+## EMail notifications
+
+Currently the website allows to sign up for email notifications but it is not by the category of the deals. Users should be able to subscribe the front page deals or the deals on any specific category when the deal is posted.
+
+Most of the good deals posted on the website expires very soon. Allowing the user to subscribe and through email notifications, interested users will not miss out the deals.
+
+## Deals Categorization
+
+The deals can be shown based on user preferences. For example, currently the website shows Frontpage deal, Trending deals and Popular deals in separate sections.
+
+However the user interested deals can be shown first in a dedicated section.
+
+
+```{r include=FALSE}
+```
